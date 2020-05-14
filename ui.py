@@ -264,7 +264,29 @@ class Calculator(QtWidgets.QMainWindow):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.Addition.clicked.connect(lambda: self.push_number(self.Addition))
+        self.Zero.clicked.connect(lambda: self.push_number(self.Zero))
+        self.Backspace.clicked.connect(lambda: self.push_number(self.Backspace))
+        self.C.clicked.connect(lambda: self.push_number(self.C))
+        self.Division.clicked.connect(lambda: self.push_number(self.Division))
+        self.Dot.clicked.connect(lambda: self.push_number(self.Dot))
+        self.Eight.clicked.connect(lambda: self.push_number(self.Eight))
+        self.Equally.clicked.connect(lambda: self.push_number(self.Equally))
+        self.Five.clicked.connect(lambda: self.push_number(self.Five))
+        self.Four.clicked.connect(lambda: self.push_number(self.Four))
+        self.Multiple.clicked.connect(lambda: self.push_number(self.Multiple))
+        self.Nine.clicked.connect(lambda: self.push_number(self.Nine))
+        self.One.clicked.connect(lambda: self.push_number(self.One))
+        self.Percent.clicked.connect(lambda: self.push_number(self.Percent))
+        self.Seven.clicked.connect(lambda: self.push_number(self.Seven))
+        self.Six.clicked.connect(lambda: self.push_number(self.Six))
+        self.Subtraction.clicked.connect(lambda: self.push_number(self.Subtraction))
+        self.Three.clicked.connect(lambda: self.push_number(self.Three))
+        self.Two.clicked.connect(lambda: self.push_number(self.Two))
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+
+    def push_number(self, button):
+        self.lcdNumber.display(button.text())
