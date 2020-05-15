@@ -6,6 +6,8 @@ class Calculator(QtWidgets.QMainWindow):
         super().__init__()
 
         self.setupUi(self)
+        self.li = [0]
+        self.cleared = True
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -230,7 +232,7 @@ class Calculator(QtWidgets.QMainWindow):
         font = QtGui.QFont()
         font.setPointSize(15)
         self.Dot.setFont(font)
-        self.Dot.setText(",")
+        self.Dot.setText(".")
         self.Dot.setIconSize(QtCore.QSize(20, 20))
         self.Dot.setObjectName("Dot")
         self.Equally = QtWidgets.QPushButton(self.centralwidget)
@@ -261,7 +263,6 @@ class Calculator(QtWidgets.QMainWindow):
         self.Zero.setIconSize(QtCore.QSize(20, 20))
         self.Zero.setObjectName("Zero")
         MainWindow.setCentralWidget(self.centralwidget)
-
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         self.Addition.clicked.connect(lambda: self.push_number(self.Addition))
@@ -289,4 +290,16 @@ class Calculator(QtWidgets.QMainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
 
     def push_number(self, button):
-        self.lcdNumber.display(button.text())
+        if self.cleared:
+            if button.text() != "=" and button.text() != "C" and button.text() != "←":
+                self.li.clear()
+                self.cleared = False
+                self.li.append(button.text())
+                self.lcdNumber.display(button.text())
+                print(self.li)
+
+        else:
+            if button.text() != "=" and button.text() != "C" and button.text() != "←":
+                self.li.append(button.text())
+                self.lcdNumber.display(button.text())
+                print(self.li)
