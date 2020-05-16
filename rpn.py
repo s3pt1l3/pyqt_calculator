@@ -17,13 +17,13 @@ def reverse_polish_notation(st):
                 yield s
         if number:
             if number.count('.') > 1:
-                yield 'ERROR: TWO DOTS IN ONE NUMBER'
+                yield 'ERROR: TOO MUCH DOTS IN ONE NUMBER'
             else:
                 yield float(number)
 
     def shunting_yard(parsed_st):
-        if parsed_st == 'ERROR: TWO DOTS IN ONE NUMBER':
-            yield 'ERROR: TWO DOTS IN ONE NUMBER'
+        if parsed_st == 'ERROR: TOO MUCH DOTS IN ONE NUMBER':
+            yield 'ERROR: TOO MUCH DOTS IN ONE NUMBER'
         stack = []
         for token in parsed_st:
             if token in OPERATORS:
@@ -44,8 +44,8 @@ def reverse_polish_notation(st):
             yield stack.pop()
 
     def calc(p_st):
-        if p_st == 'ERROR: TWO DOTS IN ONE NUMBER':
-            return 'ERROR: TWO DOTS IN ONE NUMBER'
+        if p_st == 'ERROR: TOO MUCH DOTS IN ONE NUMBER':
+            return 'ERROR: TOO MUCH DOTS IN ONE NUMBER'
         else:
             stack = []
             for token in p_st:

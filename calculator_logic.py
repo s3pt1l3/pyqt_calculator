@@ -24,20 +24,31 @@ def push_number(ui, button):
                 ui.li_output += button.text()
 
     else:
-        if button.text() != "=" and button.text() != "C" and button.text() != "←" and button.text() != "-":
-            ui.li += button.text()
-            if ui.minus:
-                ui.li_output = ui.li[1:]
-                ui.lineEdit.setText(ui.li_output)
+        if button.text() != "=" and button.text() != "C" and button.text() != "←" and button.text() != "-" \
+                and button.text() != ".":
+            if ui.minus_bracket and button.text() in '+:×÷':
+                ui.li += button.text() + ')'
+                if ui.minus:
+                    ui.li_output = ui.li[1:]
+                    ui.lineEdit.setText(ui.li_output)
+                else:
+                    ui.li_output += button.text()
+                    ui.lineEdit.setText(ui.li_output)
             else:
-                ui.li_output += button.text()
-                ui.lineEdit.setText(ui.li_output)
+                ui.li += button.text()
+                if ui.minus:
+                    ui.li_output = ui.li[1:]
+                    ui.lineEdit.setText(ui.li_output)
+                else:
+                    ui.li_output += button.text()
+                    ui.lineEdit.setText(ui.li_output)
         elif button.text() == 'C':
             ui.li += ''
             ui.lineEdit.clear()
             ui.lineEdit.setText('0')
             ui.cleared = True
             ui.minus = False
+            ui.minus_bracket = False
 
         elif button.text() == '←':
             ui.li = ui.li[0:-1]
@@ -46,16 +57,24 @@ def push_number(ui, button):
             if ui.li == '':
                 ui.lineEdit.setText('0')
                 ui.minus = False
+                ui.minus_bracket = False
         elif button.text() == '-':
             if ui.li[-1] == '(':
-                ui.li += '0-'
+                ui.li += '(0-'
                 ui.li_output += '-'
                 ui.lineEdit.setText(ui.li_output)
+                ui.minus_bracket = True
             else:
-                ui.li += '0-'
+                ui.li += '-'
                 ui.li_output += '-'
                 ui.lineEdit.setText(ui.li_output)
-
+        elif button.text() == '.':
+            if ui.li[-1] in '+-:×÷':
+                pass
+            else:
+                ui.li += button.text()
+                ui.li_output += button.text()
+                ui.lineEdit.setText(ui.li_output)
         elif button.text() == '=':
             if ui.li[-1] in '+-:×÷':
                 pass
