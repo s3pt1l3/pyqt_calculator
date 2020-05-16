@@ -1,5 +1,7 @@
-OPERATORS = {'+': (1, lambda x, y: x + y), '-': (1, lambda x, y: x - y),
-             '×': (2, lambda x, y: x * y), '÷': (2, lambda x, y: x / y)}
+import operator
+
+OPERATORS = {'+': (1, operator.add), '-': (1, operator.sub),
+             '×': (2, operator.mul), '÷': (2, operator.truediv)}
 
 
 def reverse_polish_notation(st):
@@ -14,9 +16,14 @@ def reverse_polish_notation(st):
             if s in OPERATORS or s in "()":
                 yield s
         if number:
-            yield float(number)
+            if number.count('.') > 1:
+                yield 'ERROR: TWO DOTS IN ONE NUMBER'
+            else:
+                yield float(number)
 
     def shunting_yard(parsed_st):
+        if parsed_st == 'ERROR: TWO DOTS IN ONE NUMBER':
+            yield 'ERROR: TWO DOTS IN ONE NUMBER'
         stack = []
         for token in parsed_st:
             if token in OPERATORS:
@@ -37,13 +44,21 @@ def reverse_polish_notation(st):
             yield stack.pop()
 
     def calc(p_st):
-        stack = []
-        for token in p_st:
-            if token in OPERATORS:
-                y, x = stack.pop(), stack.pop()
-                stack.append(OPERATORS[token][1](x, y))
-            else:
-                stack.append(token)
-        return stack[0]
+        if p_st == 'ERROR: TWO DOTS IN ONE NUMBER':
+            return 'ERROR: TWO DOTS IN ONE NUMBER'
+        else:
+            stack = []
+            for token in p_st:
+                if token in OPERATORS:
+                    y, x = stack.pop(), stack.pop()
+                    if token == '÷' and y == 0:
+                        return 'ERROR: DIVISION BY ZERO'
+                    else:
+                        stack.append(OPERATORS[token][1](x, y))
+                else:
+                    stack.append(token)
+            if str(stack[0])[-1] == '0':
+                stack[0] = int(stack[0])
+            return stack[0]
 
     return calc(shunting_yard(parse(st)))

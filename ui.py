@@ -6,8 +6,11 @@ class Calculator(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
 
+        self.minus = False
+        self.minus_bracket = False
         self.setupUi(self)
-        self.li = 0
+        self.li = ''
+        self.li_output = ''
         self.cleared = True
         self.lineEdit.setText('0')
 
