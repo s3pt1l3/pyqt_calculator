@@ -4,9 +4,10 @@ from rpn import reverse_polish_notation
 def push_number(ui, button):
     if ui.cleared:
         ui.lineEdit.setText('0')
+        ui.li = '0'
+        ui.li_output = '0'
         if button.text() not in '=C←().':
             if button.text() == '-':
-                ui.li = '0'
                 ui.cleared = False
                 ui.li += button.text()
                 ui.li_output = ui.li[1:]
