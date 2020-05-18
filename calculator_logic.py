@@ -10,14 +10,22 @@ def push_number(ui, button):
                 ui.lineEdit.setText(ui.li)
             else:
                 ui.li += button.text()
+                ui.cleared = False
+                ui.lineEdit.setText(ui.li)
     else:
         if button.text() != "=" and button.text() != "C" and button.text() != "←" and button.text() != ".":
-            if button.text() in '+×÷-':
+            if button.text() not in '1234567890-' and ui.li[-1] == '(':
+                pass
+            elif button.text() in '+×÷-':
                 if ui.li[-1] in '+-×÷':
                     pass
                 else:
                     ui.li += button.text()
                     ui.lineEdit.setText(ui.li)
+            elif button.text() in '()' and ui.li[-1] == '.':
+                pass
+            elif button.text() == '(' and ui.li[-1] not in '+-×÷':
+                pass
             else:
                 ui.li += button.text()
                 ui.lineEdit.setText(ui.li)
@@ -60,11 +68,11 @@ def push_number(ui, button):
                     if ui.dots:
                         pass
                     else:
+                        ui.li = ui.li2
                         try:
                             ui.li = ui.li.replace('×', '*')
                             ui.li = ui.li.replace('÷', '/')
                             result = eval(ui.li)
-                            print(ui.li)
                             ui.lineEdit.setText(str(result))
                             ui.cleared = True
                         except ZeroDivisionError:
