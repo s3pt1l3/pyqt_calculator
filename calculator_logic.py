@@ -13,6 +13,8 @@ def push_number(ui, button):
                 ui.cleared = False
                 ui.lineEdit.setText(ui.li)
     else:
+        if ui.li[0] == '0' and len(ui.li) > 2:
+            ui.li = str(eval(ui.li))
         if button.text() != "=" and button.text() != "C" and button.text() != "←" and button.text() != ".":
             if button.text() not in '1234567890-' and ui.li[-1] == '(':
                 pass
