@@ -20,6 +20,7 @@ def push_number(ui, button):
                 if ui.li[-1] not in '+-×÷.':
                     ui.li += button.text()
                     ui.lineEdit.setText(ui.li)
+                    ui.dot_checker = False
             elif button.text() in '()' and ui.li[-1] == '.':
                 pass
             elif button.text() == '(' and ui.li[-1] not in '+-×÷':
@@ -44,7 +45,10 @@ def push_number(ui, button):
             ui.lineEdit.clear()
             ui.lineEdit.setText('0')
             ui.cleared = True
+            ui.dot_checker = False
         elif button.text() == '←':
+            if ui.li[-1] == '.':
+                ui.dot_checker = False
             ui.li = ui.li[0:-1]
             ui.lineEdit.setText(ui.li)
             if ui.li == '':
@@ -52,8 +56,10 @@ def push_number(ui, button):
                 ui.cleared = True
         elif button.text() == '.':
             if ui.li[-1] not in '+-×÷().':
-                ui.li += button.text()
-                ui.lineEdit.setText(ui.li)
+                if not ui.dot_checker:
+                    ui.li += button.text()
+                    ui.lineEdit.setText(ui.li)
+                    ui.dot_checker = True
         elif button.text() == '=':
             if ui.li[-1] in '+-×÷':
                 pass
