@@ -2,8 +2,8 @@ def push_number(ui, button):
     if ui.cleared:
         ui.lineEdit.setText('0')
         ui.li = '0'
-        if button.text() not in '=C←().':
-            if button.text() in "1234567890-":
+        if button.text() not in '=C←).':
+            if button.text() in "1234567890-(":
                 ui.li = ''
                 ui.cleared = False
                 ui.li += button.text()
@@ -19,7 +19,7 @@ def push_number(ui, button):
             if button.text() not in '1234567890-' and ui.li[-1] == '(':
                 pass
             elif button.text() in '+×÷-':
-                if ui.li[-1] in '+-×÷':
+                if ui.li[-1] in '+-×÷.':
                     pass
                 else:
                     ui.li += button.text()
@@ -28,6 +28,9 @@ def push_number(ui, button):
                 pass
             elif button.text() == '(' and ui.li[-1] not in '+-×÷':
                 pass
+            elif button.text() in '1234567890' and ui.li[0] == '0':
+                ui.li = button.text()
+                ui.lineEdit.setText(ui.li)
             else:
                 ui.li += button.text()
                 ui.lineEdit.setText(ui.li)
@@ -43,7 +46,8 @@ def push_number(ui, button):
                 ui.lineEdit.setText('0')
                 ui.cleared = True
         elif button.text() == '.':
-            if ui.li[-1] in '+-×÷':
+            print(ui.li)
+            if ui.li[-1] in '+-×÷()':
                 pass
             else:
                 ui.li += button.text()
@@ -80,13 +84,11 @@ def push_number(ui, button):
                         except ZeroDivisionError:
                             ui.lineEdit.setText('Error: division by zero')
                             ui.cleared = True
-
                 else:
                     try:
                         ui.li = ui.li.replace('×', '*')
                         ui.li = ui.li.replace('÷', '/')
                         result = eval(ui.li)
-                        print(ui.li)
                         ui.lineEdit.setText(str(result))
                         ui.cleared = True
                     except ZeroDivisionError:
